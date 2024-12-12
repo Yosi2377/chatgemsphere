@@ -27,14 +27,21 @@ export default {
         primary: {
           DEFAULT: "#0EA5E9",
           foreground: "#FFFFFF",
+          dark: "hsl(var(--primary-dark))", // Pa35e
         },
         secondary: {
           DEFAULT: "#8B5CF6",
           foreground: "#FFFFFF",
+          dark: "hsl(var(--secondary-dark))", // Pa35e
         },
         accent: {
           DEFAULT: "#4ADE80",
           foreground: "#FFFFFF",
+        },
+        destructive: {
+          DEFAULT: "#EF4444",
+          foreground: "#FFFFFF",
+          dark: "hsl(var(--destructive-dark))", // Pa35e
         },
         chat: {
           user: "#0EA5E9",

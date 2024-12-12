@@ -63,9 +63,11 @@
 
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
+    --primary-dark: 210 40% 20%; /* Pa91d */
 
     --secondary: 217.2 32.6% 17.5%;
     --secondary-foreground: 210 40% 98%;
+    --secondary-dark: 217.2 32.6% 30%; /* Pa91d */
 
     --muted: 217.2 32.6% 17.5%;
     --muted-foreground: 215 20.2% 65.1%;
@@ -75,6 +77,7 @@
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
+    --destructive-dark: 0 62.8% 40%; /* Pa91d */
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
