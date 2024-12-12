@@ -4,6 +4,7 @@ import { ChatInput } from "@/components/ChatInput";
 import { ConnectionStatus } from "@/components/ConnectionStatus";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { useToast } from "@/components/ui/use-toast";
+import { createGeminiClient, generateResponse } from "@/utils/geminiClient";
 
 type Message = {
   role: "user" | "assistant" | "system";
@@ -12,12 +13,34 @@ type Message = {
 
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [apiKey, setApiKey] = useState("");
-  const [status, setStatus] = useState<"disconnected" | "connecting" | "connected">(
-    "disconnected"
-  );
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem("geminiApiKey") || "");
+  const [status, setStatus] = useState<"disconnected" | "connecting" | "connected">("disconnected");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const [geminiModel, setGeminiModel] = useState<any>(null);
+
+  useEffect(() => {
+    if (apiKey) {
+      try {
+        setStatus("connecting");
+        const model = createGeminiClient(apiKey);
+        setGeminiModel(model);
+        setStatus("connected");
+        localStorage.setItem("geminiApiKey", apiKey);
+      } catch (error) {
+        console.error('Error initializing Gemini:', error);
+        setStatus("disconnected");
+        toast({
+          title: "Connection Error",
+          description: "Failed to initialize Gemini API. Please check your API key.",
+          variant: "destructive",
+        });
+      }
+    } else {
+      setStatus("disconnected");
+      setGeminiModel(null);
+    }
+  }, [apiKey, toast]);
 
   const handleSend = async (message: string) => {
     if (!apiKey) {
@@ -32,27 +55,20 @@ const Index = () => {
     setMessages((prev) => [...prev, { role: "user", content: message }]);
     setIsLoading(true);
 
-    // Simulate API call (replace with actual Gemini API integration)
-    setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        { role: "assistant", content: "This is a simulated response." },
-      ]);
+    try {
+      const response = await generateResponse(geminiModel, message);
+      setMessages((prev) => [...prev, { role: "assistant", content: response }]);
+    } catch (error) {
+      console.error('Error getting response:', error);
+      toast({
+        title: "Error",
+        description: "Failed to get response from Gemini API. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
-  };
-
-  useEffect(() => {
-    if (apiKey) {
-      setStatus("connecting");
-      // Simulate API connection (replace with actual Gemini API check)
-      setTimeout(() => {
-        setStatus("connected");
-      }, 1000);
-    } else {
-      setStatus("disconnected");
     }
-  }, [apiKey]);
+  };
 
   return (
     <div className="flex flex-col h-screen bg-background">
