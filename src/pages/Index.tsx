@@ -5,6 +5,10 @@ import { ConnectionStatus } from "@/components/ConnectionStatus";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { useToast } from "@/components/ui/use-toast";
 import { createGeminiClient, generateResponse } from "@/utils/geminiClient";
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 
 type Message = {
   role: "user" | "assistant" | "system";
@@ -18,6 +22,7 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [geminiModel, setGeminiModel] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (apiKey) {
@@ -70,6 +75,11 @@ const Index = () => {
     }
   };
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/login");
+  };
+
   return (
     <div className="flex flex-col h-screen bg-background">
       <header className="flex items-center justify-between p-4 border-b">
@@ -79,6 +89,9 @@ const Index = () => {
         <div className="flex items-center gap-4">
           <ConnectionStatus status={status} />
           <SettingsDialog apiKey={apiKey} onApiKeyChange={setApiKey} />
+          <Button variant="ghost" size="icon" onClick={handleLogout}>
+            <LogOut className="h-5 w-5" />
+          </Button>
         </div>
       </header>
 
