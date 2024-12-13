@@ -32,7 +32,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const App = () => (
-  <ThemeProvider defaultTheme="system">
+  <ThemeProvider defaultTheme="system" attribute="class">
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
