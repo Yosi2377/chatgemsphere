@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 
 const DarkModeToggle = () => {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setTheme(resolvedTheme);
+  }, [resolvedTheme, setTheme]);
 
   const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
   };
 
   return (
     <Button onClick={toggleTheme}>
-      {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
+      {resolvedTheme === 'dark' ? 'Light Mode' : 'Dark Mode'}
     </Button>
   );
 };
