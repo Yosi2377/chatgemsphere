@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
+import DarkModeToggle from "@/components/DarkModeToggle";
 
 type Message = {
   role: "user" | "assistant" | "system";
@@ -89,6 +90,7 @@ const Index = () => {
         <div className="flex items-center gap-4">
           <ConnectionStatus status={status} />
           <SettingsDialog apiKey={apiKey} onApiKeyChange={setApiKey} />
+          <DarkModeToggle />
           <Button variant="ghost" size="icon" onClick={handleLogout}>
             <LogOut className="h-5 w-5" />
           </Button>
