@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "next-themes"; // Pf0af
+import { useTheme } from "next-themes";
 
 type Message = {
   role: "user" | "assistant" | "system";
@@ -24,7 +24,7 @@ const Index = () => {
   const { toast } = useToast();
   const [geminiModel, setGeminiModel] = useState<any>(null);
   const navigate = useNavigate();
-  const { theme, setTheme } = useTheme(); // Peb86
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     if (apiKey) {
@@ -82,9 +82,9 @@ const Index = () => {
     navigate("/login");
   };
 
-  const toggleTheme = () => { // Peb86
-    setTheme(theme === "dark" ? "light" : "dark"); // Peb86
-  }; // Peb86
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
 
   return (
     <div className="flex flex-col h-screen bg-background">
@@ -95,9 +95,9 @@ const Index = () => {
         <div className="flex items-center gap-4">
           <ConnectionStatus status={status} />
           <SettingsDialog apiKey={apiKey} onApiKeyChange={setApiKey} />
-          <Button variant="ghost" size="icon" onClick={toggleTheme}> // Pdc85
-            {theme === "dark" ? "Light Mode" : "Dark Mode"} // Pdc85
-          </Button> // Pdc85
+          <Button variant="ghost" size="icon" onClick={toggleTheme}>
+            {theme === "dark" ? "Light Mode" : "Dark Mode"}
+          </Button>
           <Button variant="ghost" size="icon" onClick={handleLogout}>
             <LogOut className="h-5 w-5" />
           </Button>
