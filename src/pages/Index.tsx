@@ -31,7 +31,10 @@ const Index = () => {
   const { toast } = useToast();
   const [geminiModel, setGeminiModel] = useState<any>(null);
   const navigate = useNavigate();
-  const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>(() => {
+    const savedConversations = localStorage.getItem("conversations");
+    return savedConversations ? JSON.parse(savedConversations) : [];
+  });
 
   useEffect(() => {
     if (apiKey) {
@@ -55,6 +58,10 @@ const Index = () => {
       setGeminiModel(null);
     }
   }, [apiKey, toast]);
+
+  useEffect(() => {
+    localStorage.setItem("conversations", JSON.stringify(conversations));
+  }, [conversations]);
 
   const handleSend = async (message: string) => {
     if (!apiKey) {
