@@ -3,6 +3,7 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import DarkModeToggle from "@/components/DarkModeToggle";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -41,6 +42,9 @@ const Login = () => {
             }}
             providers={[]}
           />
+        </div>
+        <div className="flex justify-center mt-4">
+          <DarkModeToggle />
         </div>
       </div>
     </div>
