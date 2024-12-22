@@ -175,6 +175,7 @@ const Index = () => {
             onRename={handleRenameConversation}
             onDelete={handleDeleteConversation}
             onSelect={handleSelectConversation}
+            onClear={handleClearConversation}
           />
           <Button onClick={handleAddConversation}>Add Conversation</Button>
           <Button onClick={handleClearConversation}>Clear Conversation</Button>
