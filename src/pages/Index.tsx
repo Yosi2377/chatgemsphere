@@ -85,7 +85,7 @@ const Index = () => {
     <div className="flex flex-col h-screen bg-background">
       <header className="flex items-center justify-between p-4 border-b">
         <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-          AI Chat
+          Yossi Chat
         </h1>
         <div className="flex items-center gap-4">
           <ConnectionStatus status={status} />

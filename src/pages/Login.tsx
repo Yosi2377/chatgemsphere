@@ -24,7 +24,7 @@ const Login = () => {
         <div className="w-full max-w-md space-y-4">
           <div className="text-center space-y-2">
             <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Welcome to AI Chat
+              Welcome to Yossi Chat
             </h1>
             <p className="text-muted-foreground">Sign in or create an account to continue</p>
           </div>
