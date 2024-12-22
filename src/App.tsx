@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import { ThemeProvider } from "next-themes";
+import DarkModeToggle from "@/components/DarkModeToggle";
 
 const queryClient = new QueryClient();
 
@@ -32,15 +33,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const App = () => {
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    if (mediaQuery.matches) {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
-  }, []);
-
   return (
     <ThemeProvider defaultTheme="system">
       <QueryClientProvider client={queryClient}>
