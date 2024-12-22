@@ -17,12 +17,14 @@ interface ConversationMenuProps {
   conversations: Conversation[];
   onRename: (id: string, newName: string) => void;
   onDelete: (id: string) => void;
+  onSelect: (id: string) => void;
 }
 
 const ConversationMenu: React.FC<ConversationMenuProps> = ({
   conversations,
   onRename,
   onDelete,
+  onSelect,
 }) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [newName, setNewName] = useState("");
@@ -37,7 +39,7 @@ const ConversationMenu: React.FC<ConversationMenuProps> = ({
     <div className="conversation-menu">
       {conversations.map((conversation) => (
         <ContextMenu key={conversation.id}>
-          <ContextMenuTrigger>
+          <ContextMenuTrigger onClick={() => onSelect(conversation.id)}>
             <div className="conversation-item">
               {editingId === conversation.id ? (
                 <Input

@@ -214,6 +214,23 @@ const DeleteConversationItem = React.forwardRef<
 ))
 DeleteConversationItem.displayName = ContextMenuPrimitive.Item.displayName
 
+const SelectConversationItem = React.forwardRef<
+  React.ElementRef<typeof ContextMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item>
+>(({ className, ...props }, ref) => (
+  <ContextMenuPrimitive.Item
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className
+    )}
+    {...props}
+  >
+    Select
+  </ContextMenuPrimitive.Item>
+))
+SelectConversationItem.displayName = ContextMenuPrimitive.Item.displayName
+
 export {
   ContextMenu,
   ContextMenuTrigger,
@@ -232,4 +249,5 @@ export {
   ContextMenuRadioGroup,
   RenameConversationItem,
   DeleteConversationItem,
+  SelectConversationItem,
 }
