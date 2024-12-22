@@ -35,7 +35,6 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 const App = () => {
   return (
     <ThemeProvider defaultTheme="system">
-      <DarkModeToggle />
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
           <Toaster />
@@ -55,6 +54,7 @@ const App = () => {
           </BrowserRouter>
         </TooltipProvider>
       </QueryClientProvider>
+      <DarkModeToggle />
     </ThemeProvider>
   );
 };

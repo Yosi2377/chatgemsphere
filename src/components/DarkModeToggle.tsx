@@ -10,23 +10,15 @@ const DarkModeToggle = () => {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    if (resolvedTheme === 'dark' || resolvedTheme === 'light') {
-      setTheme(resolvedTheme);
-    } else {
-      setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    }
-  }, [resolvedTheme, setTheme]);
+  const toggleTheme = () => {
+    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+  };
 
   if (!mounted) return null;
 
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  };
-
   return (
     <Button onClick={toggleTheme} className="ml-4">
-      {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+      {resolvedTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
     </Button>
   );
 };
