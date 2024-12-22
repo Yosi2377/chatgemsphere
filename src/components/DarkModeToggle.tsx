@@ -17,7 +17,7 @@ const DarkModeToggle = () => {
   if (!mounted) return null;
 
   return (
-    <Button onClick={toggleTheme} className="ml-4">
+    <Button onClick={toggleTheme} className="dark-mode-toggle" data-testid="dark-mode-toggle">
       {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
     </Button>
   );
