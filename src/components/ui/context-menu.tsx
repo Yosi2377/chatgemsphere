@@ -179,6 +179,41 @@ const ContextMenuShortcut = ({
 }
 ContextMenuShortcut.displayName = "ContextMenuShortcut"
 
+// New context menu items for renaming and deleting conversations
+const RenameConversationItem = React.forwardRef<
+  React.ElementRef<typeof ContextMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item>
+>(({ className, ...props }, ref) => (
+  <ContextMenuPrimitive.Item
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className
+    )}
+    {...props}
+  >
+    Rename
+  </ContextMenuPrimitive.Item>
+))
+RenameConversationItem.displayName = ContextMenuPrimitive.Item.displayName
+
+const DeleteConversationItem = React.forwardRef<
+  React.ElementRef<typeof ContextMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item>
+>(({ className, ...props }, ref) => (
+  <ContextMenuPrimitive.Item
+    ref={ref}
+    className={cn(
+      "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+      className
+    )}
+    {...props}
+  >
+    Delete
+  </ContextMenuPrimitive.Item>
+))
+DeleteConversationItem.displayName = ContextMenuPrimitive.Item.displayName
+
 export {
   ContextMenu,
   ContextMenuTrigger,
@@ -195,4 +230,6 @@ export {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuRadioGroup,
+  RenameConversationItem,
+  DeleteConversationItem,
 }
