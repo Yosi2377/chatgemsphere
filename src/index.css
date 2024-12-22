@@ -92,11 +92,11 @@
     --sidebar-ring: 217.2 91.2% 59.8%;
 
     /* Dark mode variables for the login page */
-    --login-background: 222.2 84% 4.9%;
-    --login-foreground: 210 40% 98%;
-    --login-card: 222.2 84% 4.9%;
-    --login-card-foreground: 210 40% 98%;
-    --login-muted-foreground: 215 20.2% 65.1%;
+    --login-background: var(--background);
+    --login-foreground: var(--foreground);
+    --login-card: var(--card);
+    --login-card-foreground: var(--card-foreground);
+    --login-muted-foreground: var(--muted-foreground);
   }
 }
 

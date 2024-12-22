@@ -19,14 +19,6 @@ const Login = () => {
     });
   }, [navigate]);
 
-  useEffect(() => {
-    if (resolvedTheme === 'dark' || resolvedTheme === 'light') {
-      setTheme(resolvedTheme);
-    } else {
-      setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    }
-  }, [resolvedTheme, setTheme]);
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
       <div className="w-full max-w-md space-y-4">
