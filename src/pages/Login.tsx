@@ -4,9 +4,11 @@ import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import DarkModeToggle from "@/components/DarkModeToggle";
+import { useTheme } from 'next-themes';
 
 const Login = () => {
   const navigate = useNavigate();
+  const { resolvedTheme, setTheme } = useTheme();
 
   useEffect(() => {
     // Check if user is already logged in
@@ -16,6 +18,14 @@ const Login = () => {
       }
     });
   }, [navigate]);
+
+  useEffect(() => {
+    if (resolvedTheme === 'dark' || resolvedTheme === 'light') {
+      setTheme(resolvedTheme);
+    } else {
+      setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+  }, [resolvedTheme, setTheme]);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
