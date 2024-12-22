@@ -32,6 +32,7 @@ const Index = () => {
   const [geminiModel, setGeminiModel] = useState<any>(null);
   const navigate = useNavigate();
   const [conversations, setConversations] = useState<Conversation[]>([]);
+  const [currentConversationId, setCurrentConversationId] = useState<string | null>(null);
 
   useEffect(() => {
     if (apiKey) {
@@ -66,12 +67,28 @@ const Index = () => {
       return;
     }
 
+    if (!currentConversationId) {
+      toast({
+        title: "No Conversation Selected",
+        description: "Please select a conversation to send a message.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setMessages((prev) => [...prev, { role: "user", content: message }]);
     setIsLoading(true);
 
     try {
       const response = await generateResponse(geminiModel, message);
       setMessages((prev) => [...prev, { role: "assistant", content: response }]);
+      setConversations((prev) =>
+        prev.map((conv) =>
+          conv.id === currentConversationId
+            ? { ...conv, messages: [...conv.messages, { role: "user", content: message }, { role: "assistant", content: response }] }
+            : conv
+        )
+      );
     } catch (error) {
       console.error('Error getting response:', error);
       toast({
@@ -96,6 +113,7 @@ const Index = () => {
       messages: [],
     };
     setConversations((prev) => [...prev, newConversation]);
+    setCurrentConversationId(newConversation.id);
   };
 
   const handleRenameConversation = (id: string, newName: string) => {
@@ -108,6 +126,17 @@ const Index = () => {
 
   const handleDeleteConversation = (id: string) => {
     setConversations((prev) => prev.filter((conv) => conv.id !== id));
+    if (currentConversationId === id) {
+      setCurrentConversationId(null);
+    }
+  };
+
+  const handleSelectConversation = (id: string) => {
+    setCurrentConversationId(id);
+    const selectedConversation = conversations.find((conv) => conv.id === id);
+    if (selectedConversation) {
+      setMessages(selectedConversation.messages);
+    }
   };
 
   return (
@@ -132,6 +161,7 @@ const Index = () => {
             conversations={conversations}
             onRename={handleRenameConversation}
             onDelete={handleDeleteConversation}
+            onSelect={handleSelectConversation}
           />
           <Button onClick={handleAddConversation}>Add Conversation</Button>
         </aside>
