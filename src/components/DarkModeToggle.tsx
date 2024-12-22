@@ -3,7 +3,7 @@ import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 
 const DarkModeToggle = () => {
-  const { theme, setTheme, resolvedTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -11,14 +11,14 @@ const DarkModeToggle = () => {
   }, []);
 
   const toggleTheme = () => {
-    setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   if (!mounted) return null;
 
   return (
     <Button onClick={toggleTheme} className="ml-4">
-      {resolvedTheme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+      {theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
     </Button>
   );
 };
