@@ -108,4 +108,19 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  .dark-mode-toggle {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    border: 1px solid var(--border);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+  }
+
+  .dark-mode-toggle:hover {
+    background-color: var(--primary-foreground);
+    color: var(--primary);
+  }
 }

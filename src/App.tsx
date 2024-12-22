@@ -34,7 +34,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 const App = () => {
   return (
-    <ThemeProvider defaultTheme="system">
+    <ThemeProvider defaultTheme="light" attribute="class">
       <DarkModeToggle />
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>

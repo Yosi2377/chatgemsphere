@@ -19,7 +19,7 @@ const Login = () => {
   }, [navigate]);
 
   return (
-    <ThemeProvider defaultTheme="system">
+    <ThemeProvider defaultTheme="light" attribute="class">
       <div className="min-h-screen flex items-center justify-center bg-background p-4">
         <div className="w-full max-w-md space-y-4">
           <div className="text-center space-y-2">
