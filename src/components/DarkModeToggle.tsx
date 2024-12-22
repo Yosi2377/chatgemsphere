@@ -3,12 +3,20 @@ import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 
 const DarkModeToggle = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (resolvedTheme === 'dark' || resolvedTheme === 'light') {
+      setTheme(resolvedTheme);
+    } else {
+      setTheme(window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    }
+  }, [resolvedTheme, setTheme]);
 
   if (!mounted) return null;
 
