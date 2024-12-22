@@ -10,10 +10,17 @@ import { LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import DarkModeToggle from "@/components/DarkModeToggle";
+import ConversationMenu from "@/components/ConversationMenu";
 
 type Message = {
   role: "user" | "assistant" | "system";
   content: string;
+};
+
+type Conversation = {
+  id: string;
+  name: string;
+  messages: Message[];
 };
 
 const Index = () => {
@@ -24,6 +31,7 @@ const Index = () => {
   const { toast } = useToast();
   const [geminiModel, setGeminiModel] = useState<any>(null);
   const navigate = useNavigate();
+  const [conversations, setConversations] = useState<Conversation[]>([]);
 
   useEffect(() => {
     if (apiKey) {
@@ -81,6 +89,27 @@ const Index = () => {
     navigate("/login");
   };
 
+  const handleAddConversation = () => {
+    const newConversation: Conversation = {
+      id: Date.now().toString(),
+      name: "New Conversation",
+      messages: [],
+    };
+    setConversations((prev) => [...prev, newConversation]);
+  };
+
+  const handleRenameConversation = (id: string, newName: string) => {
+    setConversations((prev) =>
+      prev.map((conv) =>
+        conv.id === id ? { ...conv, name: newName } : conv
+      )
+    );
+  };
+
+  const handleDeleteConversation = (id: string) => {
+    setConversations((prev) => prev.filter((conv) => conv.id !== id));
+  };
+
   return (
     <div className="flex flex-col h-screen bg-background">
       <header className="flex items-center justify-between p-4 border-b">
@@ -97,14 +126,25 @@ const Index = () => {
         </div>
       </header>
 
-      <main className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message, index) => (
-          <ChatMessage key={index} {...message} />
-        ))}
-        {isLoading && (
-          <ChatMessage role="assistant" content="" isLoading={true} />
-        )}
-      </main>
+      <div className="flex flex-1">
+        <aside className="w-64 border-r">
+          <ConversationMenu
+            conversations={conversations}
+            onRename={handleRenameConversation}
+            onDelete={handleDeleteConversation}
+          />
+          <Button onClick={handleAddConversation}>Add Conversation</Button>
+        </aside>
+
+        <main className="flex-1 overflow-y-auto p-4 space-y-4">
+          {messages.map((message, index) => (
+            <ChatMessage key={index} {...message} />
+          ))}
+          {isLoading && (
+            <ChatMessage role="assistant" content="" isLoading={true} />
+          )}
+        </main>
+      </div>
 
       <footer className="border-t">
         <ChatInput onSend={handleSend} disabled={isLoading || !apiKey} />
