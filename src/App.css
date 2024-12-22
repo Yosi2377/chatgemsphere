@@ -66,4 +66,15 @@
   .login-page .read-the-docs {
     color: var(--muted-foreground);
   }
+
+  /* Dark mode styles for the #root element */
+  #root {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+
+  /* Dark mode styles for the .logo class */
+  .logo {
+    filter: drop-shadow(0 0 2em var(--primary));
+  }
 }

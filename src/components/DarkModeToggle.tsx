@@ -10,22 +10,6 @@ const DarkModeToggle = () => {
     setMounted(true);
   }, []);
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = (e: MediaQueryListEvent) => {
-      setTheme(e.matches ? 'dark' : 'light');
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-
-    // Set initial theme based on system preference
-    setTheme(mediaQuery.matches ? 'dark' : 'light');
-
-    return () => {
-      mediaQuery.removeEventListener('change', handleChange);
-    };
-  }, [setTheme]);
-
   if (!mounted) return null;
 
   const toggleTheme = () => {
