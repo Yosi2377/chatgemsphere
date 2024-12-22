@@ -136,6 +136,19 @@ const Index = () => {
     const selectedConversation = conversations.find((conv) => conv.id === id);
     if (selectedConversation) {
       setMessages(selectedConversation.messages);
+    } else {
+      setMessages([]);
+    }
+  };
+
+  const handleClearConversation = () => {
+    if (currentConversationId) {
+      setConversations((prev) =>
+        prev.map((conv) =>
+          conv.id === currentConversationId ? { ...conv, messages: [] } : conv
+        )
+      );
+      setMessages([]);
     }
   };
 
@@ -164,6 +177,7 @@ const Index = () => {
             onSelect={handleSelectConversation}
           />
           <Button onClick={handleAddConversation}>Add Conversation</Button>
+          <Button onClick={handleClearConversation}>Clear Conversation</Button>
         </aside>
 
         <main className="flex-1 overflow-y-auto p-4 space-y-4">
