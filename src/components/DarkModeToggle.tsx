@@ -10,7 +10,7 @@ const DarkModeToggle = () => {
   };
 
   return (
-    <Button onClick={toggleTheme}>
+    <Button onClick={toggleTheme} className="ml-4">
       {theme === 'dark' ? 'Light Mode' : 'Dark Mode'}
     </Button>
   );
