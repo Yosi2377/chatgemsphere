@@ -64,7 +64,7 @@
   }
 
   .login-page .read-the-docs {
-    color: var(--muted-foreground);
+    color: var (--muted-foreground);
   }
 
   /* Dark mode styles for the #root element */
@@ -77,4 +77,40 @@
   .logo {
     filter: drop-shadow(0 0 2em var(--primary));
   }
+}
+
+/* Styles for the main layout */
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+.menu ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu li {
+  margin-right: 1rem;
+}
+
+.menu a {
+  text-decoration: none;
+  color: var(--foreground);
+}
+
+.menu a:hover {
+  text-decoration: underline;
 }
