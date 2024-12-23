@@ -9,6 +9,8 @@ import Index from "./pages/Index";
 import Login from "./pages/Login";
 import { ThemeProvider } from "next-themes";
 import DarkModeToggle from "@/components/DarkModeToggle";
+import APIPage from "./pages/APIPage";
+import DocAPIPage from "./pages/DocAPIPage";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +53,8 @@ const App = () => {
                   </ProtectedRoute>
                 }
               />
+              <Route path="/api" element={<APIPage />} />
+              <Route path="/doc-api" element={<DocAPIPage />} />
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
