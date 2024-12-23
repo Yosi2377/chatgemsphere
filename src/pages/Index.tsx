@@ -8,7 +8,7 @@ import { createGeminiClient, generateResponse } from "@/utils/geminiClient";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate, Routes, Route } from "react-router-dom";
+import { useNavigate, Routes, Route, Link } from "react-router-dom";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import ConversationMenu from "@/components/ConversationMenu";
 import APIPage from "./APIPage";
@@ -158,7 +158,7 @@ const Index = () => {
     <div className="flex flex-col h-screen bg-background">
       <header className="flex items-center justify-between p-4 border-b">
         <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-          Yossi Chat
+          <Link to="/">Yossi Chat</Link>
         </h1>
         <div className="flex items-center gap-4">
           <ConnectionStatus status={status} />
@@ -181,6 +181,16 @@ const Index = () => {
           />
           <Button onClick={handleAddConversation}>Add Conversation</Button>
           <Button onClick={handleClearConversation}>Clear Conversation</Button>
+          <nav>
+            <ul>
+              <li>
+                <Link to="/api">API Page</Link>
+              </li>
+              <li>
+                <Link to="/doc-api">Documentation API Page</Link>
+              </li>
+            </ul>
+          </nav>
         </aside>
 
         <main className="flex-1 overflow-y-auto p-4 space-y-4">

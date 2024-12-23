@@ -7,6 +7,7 @@ import {
 } from "@radix-ui/react-context-menu";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 
 interface Conversation {
   id: string;
@@ -41,19 +42,21 @@ const ConversationMenu: React.FC<ConversationMenuProps> = ({
     <div className="conversation-menu">
       {conversations.map((conversation) => (
         <ContextMenu key={conversation.id}>
-          <ContextMenuTrigger onClick={() => onSelect(conversation.id)}>
-            <div className="conversation-item">
-              {editingId === conversation.id ? (
-                <Input
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  onBlur={() => handleRename(conversation.id)}
-                  autoFocus
-                />
-              ) : (
-                <span>{conversation.name}</span>
-              )}
-            </div>
+          <ContextMenuTrigger asChild>
+            <Link to={`/conversation/${conversation.id}`} onClick={() => onSelect(conversation.id)}>
+              <div className="conversation-item">
+                {editingId === conversation.id ? (
+                  <Input
+                    value={newName}
+                    onChange={(e) => setNewName(e.target.value)}
+                    onBlur={() => handleRename(conversation.id)}
+                    autoFocus
+                  />
+                ) : (
+                  <span>{conversation.name}</span>
+                )}
+              </div>
+            </Link>
           </ContextMenuTrigger>
           <ContextMenuContent>
             <ContextMenuItem onSelect={() => setEditingId(conversation.id)}>
