@@ -8,9 +8,11 @@ import { createGeminiClient, generateResponse } from "@/utils/geminiClient";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Routes, Route } from "react-router-dom";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import ConversationMenu from "@/components/ConversationMenu";
+import APIPage from "./APIPage";
+import DocAPIPage from "./DocAPIPage";
 
 type Message = {
   role: "user" | "assistant" | "system";
@@ -182,12 +184,20 @@ const Index = () => {
         </aside>
 
         <main className="flex-1 overflow-y-auto p-4 space-y-4">
-          {messages.map((message, index) => (
-            <ChatMessage key={index} {...message} />
-          ))}
-          {isLoading && (
-            <ChatMessage role="assistant" content="" isLoading={true} />
-          )}
+          <Routes>
+            <Route path="/api" element={<APIPage />} />
+            <Route path="/doc-api" element={<DocAPIPage />} />
+            <Route path="/" element={
+              <>
+                {messages.map((message, index) => (
+                  <ChatMessage key={index} {...message} />
+                ))}
+                {isLoading && (
+                  <ChatMessage role="assistant" content="" isLoading={true} />
+                )}
+              </>
+            } />
+          </Routes>
         </main>
       </div>
 
