@@ -13,30 +13,24 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   isLoading,
 }) => {
   return (
-    <div
-      className={cn(
-        "flex w-full animate-fade-up p-4",
-        role === "user" ? "justify-end" : "justify-start"
-      )}
-    >
+    <div className="chat-message">
       <div
         className={cn(
-          "rounded-lg px-4 py-2 max-w-[80%]",
-          role === "user"
-            ? "bg-chat-user text-white"
-            : role === "assistant"
-            ? "bg-chat-assistant text-white"
-            : "bg-chat-system text-white"
+          "chat-bubble shadow-sm",
+          role === "user" ? "ml-auto bg-primary text-primary-foreground" : "mr-auto",
+          role === "assistant" ? "bg-secondary text-secondary-foreground" : "",
+          role === "system" ? "bg-muted text-muted-foreground" : "",
+          isLoading ? "animate-pulse" : "animate-scale"
         )}
       >
         {isLoading ? (
-          <span className="flex gap-1">
-            <span className="animate-blink">.</span>
-            <span className="animate-blink delay-100">.</span>
-            <span className="animate-blink delay-200">.</span>
-          </span>
+          <div className="flex items-center gap-1">
+            <div className="w-2 h-2 rounded-full bg-current animate-blink" />
+            <div className="w-2 h-2 rounded-full bg-current animate-blink delay-100" />
+            <div className="w-2 h-2 rounded-full bg-current animate-blink delay-200" />
+          </div>
         ) : (
-          content
+          <div className="whitespace-pre-wrap break-words">{content}</div>
         )}
       </div>
     </div>
