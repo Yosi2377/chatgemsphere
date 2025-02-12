@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,20 +12,50 @@ import { ThemeProvider } from "next-themes";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import APIPage from "./pages/APIPage";
 import DocAPIPage from "./pages/DocAPIPage";
+import { useToast } from "./components/ui/use-toast";
 
 const queryClient = new QueryClient();
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
-      setIsAuthenticated(!!session);
-    });
-  }, []);
+    const checkAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        setIsAuthenticated(!!session);
 
-  if (isAuthenticated === null) {
-    return <div className="flex items-center justify-center h-screen">Loading...</div>;
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+          setIsAuthenticated(!!session);
+          setIsLoading(false);
+        });
+
+        return () => {
+          subscription.unsubscribe();
+        };
+      } catch (error) {
+        console.error('Auth error:', error);
+        toast({
+          title: "Authentication Error",
+          description: "Please try logging in again",
+          variant: "destructive",
+        });
+        setIsAuthenticated(false);
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, [toast]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
   }
 
   if (!isAuthenticated) {
