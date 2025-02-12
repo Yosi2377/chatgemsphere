@@ -1,0 +1,23 @@
+
+{
+  "Button": {
+    "default": "Default Button",
+    "destructive": "Destructive Button",
+    "outline": "Outline Button",
+    "secondary": "Secondary Button",
+    "ghost": "Ghost Button",
+    "link": "Link"
+  },
+  "Input": {
+    "placeholder": "Type here"
+  },
+  "Label": {
+    "default": "Label"
+  },
+  "NavigationMenu": {
+    "item": "Navigation Menu Item",
+    "open": "Open",
+    "close": "Close"
+  },
+  "Translate to Hebrew": "Translate to Hebrew"
+}
