@@ -25,7 +25,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const {  { session }, error } = await supabase.auth.getSession();
+        const { session, error } = await supabase.auth.getSession(); // Corrected line
 
         if (error) {
           console.error('Session error:', error);
@@ -37,7 +37,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated(!!session);
         setIsLoading(false);
 
-        const {  { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        const { subscription } = supabase.auth.onAuthStateChange((_event, session) => { //Corrected line
           setIsAuthenticated(!!session);
         });
 
