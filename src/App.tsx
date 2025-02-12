@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -25,7 +26,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const { session, error } = await supabase.auth.getSession(); // Corrected line
+        const { data, error } = await supabase.auth.getSession();
 
         if (error) {
           console.error('Session error:', error);
@@ -34,10 +35,10 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
           return;
         }
 
-        setIsAuthenticated(!!session);
+        setIsAuthenticated(!!data.session);
         setIsLoading(false);
 
-        const { subscription } = supabase.auth.onAuthStateChange((_event, session) => { //Corrected line
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
           setIsAuthenticated(!!session);
         });
 

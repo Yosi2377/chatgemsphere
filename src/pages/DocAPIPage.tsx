@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import marked from 'marked';
-import ReactMarkdown from 'react-markdown'; // Import ReactMarkdown
+import { marked } from 'marked';
+import ReactMarkdown from 'react-markdown';
 
 const apiData = [
   {
