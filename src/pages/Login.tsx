@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import { ThemeProvider } from "next-themes";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { AuthError } from "@supabase/supabase-js";
 
 const Login = () => {
@@ -72,6 +72,7 @@ const Login = () => {
               }}
               providers={[]}
               view="sign_in"
+              onError={handleError}
             />
           </div>
           <div className="flex justify-center mt-4">
