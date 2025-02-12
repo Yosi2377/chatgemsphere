@@ -1,3 +1,4 @@
+
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
@@ -5,18 +6,53 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import { ThemeProvider } from "next-themes";
+import { useToast } from "@/components/ui/use-toast";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   useEffect(() => {
-    // Check if user is already logged in
-    supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
+    // Clear any existing sessions on mount
+    const clearAndCheckSession = async () => {
+      try {
+        const { error } = await supabase.auth.signOut();
+        if (error) {
+          console.error('Error clearing session:', error);
+          return;
+        }
+
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        if (sessionError) {
+          console.error('Session check error:', sessionError);
+          return;
+        }
+
+        if (session) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error('Auth error:', error);
+        toast({
+          title: "Authentication Error",
+          description: "Please try again",
+          variant: "destructive",
+        });
+      }
+    };
+
+    clearAndCheckSession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
         navigate("/");
       }
     });
-  }, [navigate]);
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [navigate, toast]);
 
   return (
     <ThemeProvider defaultTheme="light" attribute="class">
