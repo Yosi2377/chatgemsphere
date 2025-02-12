@@ -72,7 +72,6 @@ const Login = () => {
               }}
               providers={[]}
               view="sign_in"
-              onError={handleError}
             />
           </div>
           <div className="flex justify-center mt-4">
