@@ -10,7 +10,7 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
-    flowType: 'pkce',
+    flowType: 'implicit',
     storage: {
       getItem: (key) => {
         try {
@@ -49,8 +49,6 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
           ...options?.headers,
           'Content-Type': 'application/json',
         },
-        mode: 'cors',
-        credentials: 'include',
       };
       
       return fetch(url, fetchOptions).catch(error => {
