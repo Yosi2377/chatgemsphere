@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import marked from 'marked'; // Add marked library for Markdown rendering
+import marked from 'marked';
+import ReactMarkdown from 'react-markdown'; // Import ReactMarkdown
 
 const apiData = [
   {
@@ -57,8 +58,7 @@ const apiData = [
       "requestsPerMinute": 100
     }
   },
-  // ... (rest of the API endpoints with similar improvements)
-  {
+    {
     "url": "/messages",
     "method": "POST",
     "description": "Send a new message.",
