@@ -13,46 +13,28 @@ const Login = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Clear any existing sessions on mount
-    const clearAndCheckSession = async () => {
-      try {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-          console.error('Error clearing session:', error);
-          return;
-        }
-
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        if (sessionError) {
-          console.error('Session check error:', sessionError);
-          return;
-        }
-
-        if (session) {
-          navigate("/");
-        }
-      } catch (error) {
-        console.error('Auth error:', error);
-        toast({
-          title: "Authentication Error",
-          description: "Please try again",
-          variant: "destructive",
-        });
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        navigate("/");
       }
     };
 
-    clearAndCheckSession();
+    checkSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('Auth event:', event);
       if (event === 'SIGNED_IN' && session) {
         navigate("/");
+      } else if (event === 'USER_DELETED' || event === 'SIGNED_OUT') {
+        navigate("/login");
       }
     });
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [navigate, toast]);
+  }, [navigate]);
 
   return (
     <ThemeProvider defaultTheme="light" attribute="class">
@@ -79,6 +61,14 @@ const Login = () => {
                 },
               }}
               providers={[]}
+              onError={(error) => {
+                console.error('Auth error:', error);
+                toast({
+                  title: "Authentication Error",
+                  description: error.message || "Please check your credentials and try again",
+                  variant: "destructive",
+                });
+              }}
             />
           </div>
           <div className="flex justify-center mt-4">
