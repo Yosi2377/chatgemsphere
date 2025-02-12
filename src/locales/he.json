@@ -1,0 +1,21 @@
+{
+  "Button": {
+    "default": "לחצן ברירת מחדל",
+    "destructive": "לחצן הרסני",
+    "outline": "לחצן מתאר",
+    "secondary": "לחצן משני",
+    "ghost": "לחצן רוח",
+    "link": "קישור"
+  },
+  "Input": {
+    "placeholder": "מקום להקלדה"
+  },
+  "Label": {
+    "default": "תווית"
+  },
+  "NavigationMenu": {
+    "item": "פריט בתפריט ניווט",
+    "open": "פתח",
+    "close": "סגור"
+  }
+}
