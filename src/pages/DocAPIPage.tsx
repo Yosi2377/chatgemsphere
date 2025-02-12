@@ -1,4 +1,6 @@
-[
+import { useState, useEffect } from 'react';
+
+const apiData = [
   {
     "url": "/messages",
     "method": "GET",
@@ -90,4 +92,45 @@
       "requestsPerMinute": 20
     }
   }
-]
+];
+
+const generateMarkdown = (apiData: any[]) => {
+  let markdown = `# API Documentation\n\n`;
+  apiData.forEach(endpoint => {
+    markdown += `## ${endpoint.method} ${endpoint.url}\n\n`;
+    markdown += `**Description:** ${endpoint.description}\n\n`;
+    if (endpoint.requestParameters.length > 0) {
+      markdown += `**Request Parameters:**\n\n`;
+      endpoint.requestParameters.forEach(param => {
+        markdown += `- \`${param.name}\` (${param.type}): ${param.description} ${param.required ? '**Required**' : ''}\n`;
+      });
+      markdown += `\n`;
+    }
+    markdown += `**Response Format:** ${endpoint.responseFormat.type}\n\n`;
+    markdown += `**Response Example:**\n\`\`\`json\n${endpoint.responseFormat.example}\n\`\`\`\n\n`;
+    markdown += `**Authentication:** ${endpoint.authentication}\n\n`;
+    markdown += `**Error Handling:**\n`;
+    for (const code in endpoint.errorHandling) {
+      markdown += `- ${code}: ${endpoint.errorHandling[code]}\n`;
+    }
+    markdown += `\n`;
+    markdown += `**Rate Limit:** ${endpoint.rateLimit.requestsPerMinute} requests per minute\n\n`;
+  });
+  return markdown;
+};
+
+const DocAPIPage = () => {
+  const [markdown, setMarkdown] = useState('');
+
+  useEffect(() => {
+    setMarkdown(generateMarkdown(apiData));
+  }, []);
+
+  return (
+    <div>
+      <pre>{markdown}</pre>
+    </div>
+  );
+};
+
+export default DocAPIPage;
