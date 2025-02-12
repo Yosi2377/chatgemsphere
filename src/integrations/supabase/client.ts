@@ -10,6 +10,7 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: true,
+    flowType: 'pkce',
     storage: {
       getItem: (key) => {
         try {
@@ -38,8 +39,21 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     },
   },
   global: {
+    headers: {
+      'X-Client-Info': 'supabase-js-web',
+    },
     fetch: (url: RequestInfo | URL, options?: RequestInit) => {
-      return fetch(url, options).catch(error => {
+      const fetchOptions: RequestInit = {
+        ...options,
+        headers: {
+          ...options?.headers,
+          'Content-Type': 'application/json',
+        },
+        mode: 'cors',
+        credentials: 'include',
+      };
+      
+      return fetch(url, fetchOptions).catch(error => {
         console.error('Supabase fetch error:', error);
         throw error;
       });
