@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -13,6 +12,8 @@ import DarkModeToggle from "@/components/DarkModeToggle";
 import APIPage from "./pages/APIPage";
 import DocAPIPage from "./pages/DocAPIPage";
 import { useToast } from "./components/ui/use-toast";
+import { setLocale, isLocaleAvailable, t } from "./i18n";
+import { Button } from "@/components/ui/button";
 
 const queryClient = new QueryClient();
 
@@ -24,8 +25,8 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const { data: { session }, error } = await supabase.auth.getSession();
-        
+        const {  { session }, error } = await supabase.auth.getSession();
+
         if (error) {
           console.error('Session error:', error);
           setIsAuthenticated(false);
@@ -36,7 +37,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated(!!session);
         setIsLoading(false);
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+        const {  { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
           setIsAuthenticated(!!session);
         });
 
@@ -74,6 +75,17 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const App = () => {
+  const [isHebrew, setIsHebrew] = useState(false);
+
+  useEffect(() => {
+    setIsHebrew(isLocaleAvailable('he'));
+  }, []);
+
+  const handleTranslateToHebrew = () => {
+    setLocale('he');
+    setIsHebrew(true);
+  };
+
   return (
     <ThemeProvider defaultTheme="light" attribute="class">
       <DarkModeToggle />
@@ -82,6 +94,13 @@ const App = () => {
           <Toaster />
           <Sonner />
           <BrowserRouter>
+            <div className="flex justify-end p-4">
+              {isHebrew && (
+                <Button onClick={handleTranslateToHebrew} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                  {t('Translate to Hebrew')}
+                </Button>
+              )}
+            </div>
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route
