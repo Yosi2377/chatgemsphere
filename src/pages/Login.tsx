@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import DarkModeToggle from "@/components/DarkModeToggle";
 import { ThemeProvider } from "next-themes";
 import { useToast } from "@/components/ui/use-toast";
+import { AuthError } from "@supabase/supabase-js";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Login = () => {
       console.log('Auth event:', event);
       if (event === 'SIGNED_IN' && session) {
         navigate("/");
-      } else if (event === 'USER_DELETED' || event === 'SIGNED_OUT') {
+      } else if (event === 'SIGNED_OUT') {
         navigate("/login");
       }
     });
@@ -35,6 +36,15 @@ const Login = () => {
       subscription.unsubscribe();
     };
   }, [navigate]);
+
+  const handleError = (error: AuthError) => {
+    console.error('Auth error:', error);
+    toast({
+      title: "Authentication Error",
+      description: error.message || "Please check your credentials and try again",
+      variant: "destructive",
+    });
+  };
 
   return (
     <ThemeProvider defaultTheme="light" attribute="class">
@@ -61,14 +71,7 @@ const Login = () => {
                 },
               }}
               providers={[]}
-              onError={(error) => {
-                console.error('Auth error:', error);
-                toast({
-                  title: "Authentication Error",
-                  description: error.message || "Please check your credentials and try again",
-                  variant: "destructive",
-                });
-              }}
+              view="sign_in"
             />
           </div>
           <div className="flex justify-center mt-4">
