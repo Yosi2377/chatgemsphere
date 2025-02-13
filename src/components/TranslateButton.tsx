@@ -1,17 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
-// Placeholder for your translation function.  Replace this with your actual implementation.
-const translate = async (text: string): Promise<string> => {
-  // Simulate a delay for demonstration purposes.  Remove this in your actual implementation.
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  // Replace this with your actual translation logic.
-  if (text === "Error") {
-    throw new Error("Translation failed");
-  }
-  return `Hebrew translation of "${text}"`;
-};
-
+import { useTranslation } from '../i18n';
 
 interface TranslateButtonProps {
   textToTranslate: string;
@@ -19,6 +8,7 @@ interface TranslateButtonProps {
 }
 
 const TranslateButton: React.FC<TranslateButtonProps> = ({ textToTranslate, onTranslate }) => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [translatedText, setTranslatedText] = useState<string | null>(null);
@@ -28,7 +18,8 @@ const TranslateButton: React.FC<TranslateButtonProps> = ({ textToTranslate, onTr
     setError(null);
     setTranslatedText(null);
     try {
-      const translated = await translate(textToTranslate);
+      // Replace placeholder translation with actual translation logic using i18n
+      const translated = await translate(textToTranslate); //This function needs to be implemented
       setTranslatedText(translated);
       onTranslate(translated);
     } catch (err: any) {
@@ -38,12 +29,23 @@ const TranslateButton: React.FC<TranslateButtonProps> = ({ textToTranslate, onTr
     }
   };
 
+  //This function needs to be implemented
+  const translate = async (text: string): Promise<string> => {
+    // Simulate a delay for demonstration purposes.  Remove this in your actual implementation.
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    // Replace this with your actual translation logic.
+    if (text === "Error") {
+      throw new Error("Translation failed");
+    }
+    return `Hebrew translation of "${text}"`;
+  };
+
   return (
     <button
       onClick={handleClick}
       disabled={isLoading}
       aria-disabled={isLoading}
-      aria-label={`Translate "${textToTranslate}" to Hebrew`}
+      aria-label={t(`Translate "${textToTranslate}" to Hebrew`)}
       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
     >
       {isLoading ? (
@@ -52,14 +54,14 @@ const TranslateButton: React.FC<TranslateButtonProps> = ({ textToTranslate, onTr
             <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
             <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 1116 0 8 8 0 01-16 0z"></path>
           </svg>
-          Translating...
+          {t('Translating...')}
         </div>
       ) : error ? (
-        <span>Error: {error}</span>
+        <span>{t('Error: ') + error}</span>
       ) : translatedText ? (
-        <span>Translated!</span>
+        <span>{t('Translated!')}</span>
       ) : (
-        'Translate to Hebrew'
+        t('Translate to Hebrew')
       )}
     </button>
   );

@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 
 // Available locales
@@ -12,9 +11,15 @@ let currentLocale: Locale = 'en';
 const translations: Record<Locale, Record<string, string>> = {
   en: {
     'Translate to Hebrew': 'Translate to Hebrew',
+    'Hello': 'Hello',
+    'Goodbye': 'Goodbye',
+    'Welcome': 'Welcome'
   },
   he: {
     'Translate to Hebrew': 'תרגם לעברית',
+    'Hello': 'שלום',
+    'Goodbye': 'שלום',
+    'Welcome': 'ברוכים הבאים'
   },
 };
 
