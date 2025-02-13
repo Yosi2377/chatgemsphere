@@ -76,15 +76,18 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 };
 
 const App = () => {
-  const [isHebrew, setIsHebrew] = useState(false);
+  const [currentLanguage, setCurrentLanguage] = useState<'en' | 'he'>('en');
+  const { toast } = useToast();
 
-  useEffect(() => {
-    setIsHebrew(isLocaleAvailable('he'));
-  }, []);
-
-  const handleTranslateToHebrew = () => {
-    setLocale('he');
-    setIsHebrew(true);
+  const toggleLanguage = () => {
+    const newLanguage = currentLanguage === 'en' ? 'he' : 'en';
+    setLocale(newLanguage);
+    setCurrentLanguage(newLanguage);
+    toast({
+      title: "Language Changed",
+      description: newLanguage === 'he' ? "השפה שונתה לעברית" : "Language changed to English",
+      duration: 2000,
+    });
   };
 
   return (
@@ -96,11 +99,12 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             <div className="flex justify-end p-4">
-              {isHebrew && (
-                <Button onClick={handleTranslateToHebrew} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                  {t('Translate to Hebrew')}
-                </Button>
-              )}
+              <Button 
+                onClick={toggleLanguage} 
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                {currentLanguage === 'en' ? 'תרגם לעברית' : 'Translate to English'}
+              </Button>
             </div>
             <Routes>
               <Route path="/login" element={<Login />} />
