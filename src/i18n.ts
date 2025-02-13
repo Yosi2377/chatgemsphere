@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 
 // Available locales
@@ -8,13 +7,19 @@ type Locale = typeof LOCALES[number];
 // Current locale
 let currentLocale: Locale = 'en';
 
-// Store translations
+// Store translations  (This needs to be populated with your actual translations)
 const translations: Record<Locale, Record<string, string>> = {
   en: {
     'Translate to Hebrew': 'Translate to Hebrew',
+    'Translating...': 'Translating...',
+    'Error:': 'Error:',
+    'Translated!': 'Translated!',
   },
   he: {
     'Translate to Hebrew': 'תרגם לעברית',
+    'Translating...': 'מתרגם...',
+    'Error:': 'שגיאה:',
+    'Translated!': 'תורגם!',
   },
 };
 
